@@ -11,7 +11,6 @@ module Rediff
         use_ssl: using_ssl?,
         verify_mode: ::OpenSSL::SSL::VERIFY_NONE,
         header: {
-          'Host' => @uri.host,
           'Origin' => "#{@uri.scheme}://#{@uri.host}",
           'Referer' => "#{@uri.scheme}://#{@uri.host}",
           'User-Agent' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.106 Safari/537.36'
