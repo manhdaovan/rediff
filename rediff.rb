@@ -12,7 +12,6 @@ def print_help
   File.open('./help.txt', 'r') do |f|
     f.each { |line| puts line }
   end
-  exit
 end
 
 options = { method: :get, format: :color, request_params: nil, verbose: false }
@@ -20,6 +19,7 @@ begin
   OptionParser.new do |opts|
     opts.on('-h', '--help', 'Print help') do |_v|
       print_help
+      exit
     end
 
     opts.on('-m', '--method=REQUEST_METHOD', 'Request method') do |v|
@@ -53,6 +53,7 @@ begin
 rescue => e
   ::Rediff.logger.log(e.message, level: :error, with_time: false)
   print_help
+  exit
 end
 
 options[:urls] = ARGV[1..-1]
