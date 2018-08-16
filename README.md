@@ -5,7 +5,7 @@ This tool is used for comparing output of request (in same url's path but differ
 ## Install
 
 ```
-git clone
+git clone https://github.com/manhdaovan/rediff.git
 cd rediff
 gem install bundle
 bundle install
