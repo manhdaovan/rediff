@@ -13,3 +13,7 @@ bundle install
 
 ## Usage
 See `$bundle exec ruby rediff.rb --help`
+
+## TODO
+* [ ] Add response time of each request
+* [ ] Support viewing json format in tree mode
