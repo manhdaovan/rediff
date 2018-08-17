@@ -8,11 +8,24 @@ This tool is used for comparing output of requests (in same url's path but diffe
 
 ## Install
 
+* From source code
+
 ```
-git clone https://github.com/manhdaovan/rediff.git
-cd rediff
-gem install bundle
-bundle install
+$git clone https://github.com/manhdaovan/rediff.git
+$cd rediff
+$gem install bundle
+$bundle install
+# Then you can set an alias to shortcut command:
+$alias rediff="$(which bundle) exec ruby rediff.rb"
+```
+
+* From docker
+
+```
+$docker pull manhdaovan/rediff
+$docker run -it manhdaovan/rediff bash
+# And then you can use rediff command inside container
+$rediff action [urls] [options]
 ```
 
 ## Usage

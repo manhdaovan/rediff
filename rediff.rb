@@ -5,6 +5,7 @@ require 'net/http'
 require 'uri'
 require 'diffy'
 require 'cgi'
+require 'openssl'
 
 require_relative 'rediff/rediff'
 
