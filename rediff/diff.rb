@@ -1,3 +1,5 @@
+require_relative 'object_parser'
+
 module Rediff
   class Diff
     BASE_DIFF_OUTPUT_PATH = __dir__ + '/../output/'
@@ -42,22 +44,28 @@ module Rediff
       FileUtils.mkdir_p(output_path)
     end
 
-    def export_single_diff(cmp_obj1, cmp_obj2)
-      diffs = Diffy::Diff.new(cmp_obj1, cmp_obj2).to_s
-      identification_str = "#{cmp_obj1.object_id}_#{cmp_obj2.object_id}"
-      output_file_abs_path = output_file(identification_str)
+    def format_hash_to_json_view(obj, spaces_num)
+      ::Rediff::ObjectParser.parse_object(obj, spaces_num)
+    end
 
+    def export_single_diff(cmp_obj1, cmp_obj2)
+      cmp_obj1 = format_hash_to_json_view(cmp_obj1, 0) if cmp_obj1.is_a?(Hash)
+      cmp_obj2 = format_hash_to_json_view(cmp_obj2, 0) if cmp_obj2.is_a?(Hash)
+
+      diffs = Diffy::Diff.new(cmp_obj1, cmp_obj2).to_s
       if diffs.size < 2
         ::Rediff.logger.log('NO DIFF', level: :success)
         return
       end
 
-      if format == :color
+      if format == :color # Export diffs to stdio
         ::Rediff.logger.log('DIFF START ---------------------------- ')
         puts diffs
         ::Rediff.logger.log('DIFF END   ---------------------------- ')
-      else
-        write_css(output_file_abs_path) if format.in?([:html, :html_page])
+      else # Export diffs to files
+        identification_str = "#{cmp_obj1.object_id}_#{cmp_obj2.object_id}"
+        output_file_abs_path = output_file(identification_str)
+        write_css(output_file_abs_path) if format.in?(%i[html html_page])
         write_body(output_file_abs_path, diffs)
         ::Rediff.logger.log("Write diff to #{output_file_abs_path} : DONE")
         open_output_file(output_file_abs_path)
