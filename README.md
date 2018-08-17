@@ -3,6 +3,7 @@
 ## Background
 Sometime, when refactoring a legacy codebase, we need confirming/comparing response/payload of before and after refactoring.
 It should be better if there is no changed of responses/payloads.
+
 This tool is used for comparing output of requests (in same url's path but different servers mostly) when new version of source code was released and the old one.
 
 ## Install
@@ -15,9 +16,27 @@ bundle install
 ```
 
 ## Usage
-`$bundle exec ruby rediff.rb action [urls] [options]`
+The cookie(s) would be sent over each request, so you should login to get cookies first,
+then you can request to urls that require authentication legally.
 
-In detail:
+Firstly, Rediff requests to login page, and extracts necessary authenticity token, form action and form method from form html tag, then send authentication info to extracted action path to login.
+
+So, with login action, you should give the login screen url to Rediff like this:
+
+`$bundle exec ruby rediff.rb login https://example-old-code.com/user/login https://example-new-code.com/user/login -p "username=example&password=123456"`
+
+You can login to each url separately:
+
+```
+$bundle exec ruby rediff.rb login https://example-old-code.com/user/login -p "username=example11&password=password11"
+$bundle exec ruby rediff.rb login https://example-new-code.com/user/login -p "username=example22&password=password22"
+```
+
+After login successed, the cookie(s) would be saved to file. And then, it would be sent over each request.
+
+In general:
+
+`$bundle exec ruby rediff.rb action [urls] [options]`
 
 ```
 ACTION
