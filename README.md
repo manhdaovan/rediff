@@ -24,10 +24,14 @@ $alias rediff="$(which bundle) exec ruby rediff.rb"
 ```
 $docker pull manhdaovan/rediff
 $docker run -it manhdaovan/rediff bash
-# And then you can use rediff command inside container
+#
+# Or mount output to host machine directory:
+# $docker run -it -v /host/machine/output:/workspace/output manhdaovan/rediff bash
+# Then you can open ouput file from /host/machine/output directory in your host machine
+#
+# You can use rediff command inside container
 $rediff action [urls] [options]
 ```
-NOTE: Only `--format=color` could be used by seting up using docker.
 
 ## Usage
 The cookie(s) would be sent over each request, so you should login to get cookies first,
