@@ -27,6 +27,7 @@ $docker run -it manhdaovan/rediff bash
 # And then you can use rediff command inside container
 $rediff action [urls] [options]
 ```
+NOTE: Only `--format=color` could be used by seting up using docker.
 
 ## Usage
 The cookie(s) would be sent over each request, so you should login to get cookies first,
