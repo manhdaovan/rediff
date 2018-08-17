@@ -84,6 +84,9 @@ Run `$bundle exec ruby rediff.rb --help` for more details.
 `$bundle exec ruby rediff.rb diff http://localhost:3000/html http://localhost:4000/html --format=html`
 
 ![View diff in html format (github like)](./imgs/diff_html_html.png)
+
+`$bundle exec ruby rediff.rb diff http://localhost:3000/json http://localhost:4000/json --format=html`
+
 ![View diff in html format (github like)](./imgs/diff_html_json.png)
 
 ## TODO
