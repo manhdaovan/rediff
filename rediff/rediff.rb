@@ -122,7 +122,7 @@ module Rediff
         response = request.send(fetch_options[:method], fetch_options[:request_params])
         exec_time = (Time.now - exec_start_time) * 1000
 
-        logger.log("[DONE]  #{method_str_upcase} #{url} #{response.code} #{exec_time.truncate} ms", level: :success)
+        logger.log("[DONE]  #{method_str_upcase} #{url} #{response.code} #{exec_time.truncate}ms", level: :success)
         logger.log_verbose("[RESPONSE] PAYLOAD \n #{response.body}", level: :success)
 
         save_response_cookie(cookie, response)
