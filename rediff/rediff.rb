@@ -99,13 +99,13 @@ module Rediff
 
     def clear_all_saved_cookies
       ::Rediff::Cookie.delete_all_cookies
-      logger.log_info("[DONE]  Clear all cookies")
+      logger.log_verbose("[DONE]  Clear all cookies")
     end
 
     def clear_selected_saved_cookies
       options[:urls].each do |url|
         ::Rediff::Cookie.new(url).delete_cookie
-        logger.log_info("[DONE]  Clear cookie for #{url}")
+        logger.log_verbose("[DONE]  Clear cookie for #{url}")
       end
     end
 
@@ -116,22 +116,25 @@ module Rediff
 
         method_str_upcase = fetch_options[:method].to_s.upcase
         request = ::Rediff::Request.new(url, **request_options)
-        logger.log_info("[START] #{method_str_upcase} #{url}", level: :success)
+        logger.log_verbose("[START] #{method_str_upcase} #{url}", level: :success)
+
+        exec_start_time = Time.now
         response = request.send(fetch_options[:method], fetch_options[:request_params])
-        logger.log_info("[RESPONSE] STATUS CODE #{response.code}", level: :success)
-        logger.log_info("[RESPONSE] PAYLOAD #{response.body}", level: :success)
-        logger.log_info("[DONE]  #{method_str_upcase} #{url} #{response.code}", level: :success)
+        exec_time = (Time.now - exec_start_time) * 1000
+
+        logger.log("[DONE]  #{method_str_upcase} #{url} #{response.code} #{exec_time.truncate} ms", level: :success)
+        logger.log_verbose("[RESPONSE] PAYLOAD \n #{response.body}", level: :success)
 
         save_response_cookie(cookie, response)
 
-        resp << response.data.to_s
+        resp << response.data
       end
     end
 
     def save_response_cookie(cookie, response)
       cookie_str = response.cookies&.map { |c| c.split('; ').first }&.join('; ')
       cookie.write_cookie(cookie_str)
-      logger.log_info("[DONE]  Write cookie for #{response.uri}")
+      logger.log_verbose("[DONE]  Write cookie for #{response.uri}")
     end
 
     def init_request_options

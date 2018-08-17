@@ -50,7 +50,7 @@ begin
       options.merge!(verbose: true)
     end
   end.parse!
-rescue => e
+rescue StandardError => e
   ::Rediff.logger.log(e.message, level: :error, with_time: false)
   print_help
   exit

@@ -20,7 +20,7 @@ module Rediff
       string_color(34, str)
     end
 
-    def log_info(str, level: :info, with_time: true)
+    def log_verbose(str, level: :info, with_time: true)
       return unless ::Rediff.options.verbose?
       log(str, level: level, with_time: with_time)
     end
