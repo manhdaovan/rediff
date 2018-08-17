@@ -111,3 +111,4 @@ Run `$bundle exec ruby rediff.rb --help` for more details.
 ## TODO
 * [x] Add response time of each request
 * [x] Support viewing json format in tree mode
+* [ ] Unit tests
