@@ -73,6 +73,12 @@ OPTIONS
        Options start with one or two dashes. Many of the  options  require  an
        additional value next to them following by "=".
 
+       -i, --input=<input>
+              Input source for diff checking.
+              Available methods: file|request
+              Default is request.
+              Eg: rediff diff -i file /path/to/file1.json /path/to/file2.json
+
        -m, --method=<method>
               HTTP(s) method would be used to request to servers.
               Available methods: get|post|put
