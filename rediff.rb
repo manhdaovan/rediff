@@ -8,6 +8,7 @@ require 'cgi'
 require 'openssl'
 
 require_relative 'rediff/rediff'
+require_relative 'rediff/file_diff'
 
 def print_help
   File.open('./help.txt', 'r') do |f|
@@ -15,12 +16,16 @@ def print_help
   end
 end
 
-options = { method: :get, format: :color, request_params: nil, verbose: false }
+options = { input: :request, method: :get, format: :color, request_params: nil, verbose: false }
 begin
   OptionParser.new do |opts|
     opts.on('-h', '--help', 'Print help') do |_v|
       print_help
       exit
+    end
+
+    opts.on('-i', '--input=INPUT_SOURCE', 'Input source: File or request') do |v|
+      options.merge!(input: v.to_sym)
     end
 
     opts.on('-m', '--method=REQUEST_METHOD', 'Request method') do |v|
@@ -62,9 +67,14 @@ options[:action] = ARGV[0].to_sym
 
 action = ARGV[0]
 begin
-  Rediff.logger.log("Options: #{options.inspect}", level: :info)
-  rd = Rediff::Rediff.new(**options)
-  rd.send(action)
+  if options[:input] == :file
+    files = ARGV[1..-1]
+    Rediff::FileDiff.new(*files, format: options[:format]).show_diff
+  else
+    Rediff.logger.log("Options: #{options.inspect}", level: :info)
+    rd = Rediff::Rediff.new(**options)
+    rd.send(action)
+  end
 rescue StandardError => e
   ::Rediff.logger.log(e.message, level: :error)
   ::Rediff.logger.log(e.backtrace, level: :error)
